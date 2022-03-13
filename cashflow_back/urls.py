@@ -20,5 +20,6 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     re_path(r'^cashflow/', include('login.urls')),
+    re_path(r'^cashflow/', include('register.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'login',
+    'register',
 ]
 
 REST_FRAMEWORK = {
