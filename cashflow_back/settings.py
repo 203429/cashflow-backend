@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     'login',
     'register',
+    'categorias',
 ]
 
 REST_FRAMEWORK = {
