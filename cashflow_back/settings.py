@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'login',
     'register',
     'categorias',
+    'flujos',
 ]
 
 REST_FRAMEWORK = {
