@@ -47,13 +47,16 @@ class flujoViewDetail(APIView):
 
     def custom_response_get(self, flujo, categoria):
         data = {
-            "flujo": flujo,
-            "categoria": {
-                "idCategoria":categoria[0]['id'],
-                "clasificación":categoria[0]['clasificacion'],
-                "categoria":categoria[0]['categoria'],
-                "subcategoria":categoria[0]['subcategoria']
-            }
+            "idFlujo": flujo.get('id'),
+            "fechaFlujo": flujo.get('fecha'),
+            "tipoFlujo": flujo.get('tipo'),
+            "descripcionFlujo": flujo.get('descripcion'),
+            "cantidadFlujo": flujo.get('cantidad'),
+            "categoriaFlujo": flujo.get('categoria'),
+            "idCategoria":categoria[0]['id'],
+            "clasificaciónCat":categoria[0]['clasificacion'],
+            "categoriaCat":categoria[0]['categoria'],
+            "subcategoriaCat":categoria[0]['subcategoria']
         }
         res= json.dumps(data)
         response = json.loads(res)
