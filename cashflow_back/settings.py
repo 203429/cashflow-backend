@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'register',
     'categorias',
     'flujos',
+    'indicadores',
 ]
 
 REST_FRAMEWORK = {
