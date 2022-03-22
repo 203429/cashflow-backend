@@ -6,6 +6,8 @@ from rest_framework import status
 from categorias.models import categoryModel
 from categorias.serializers import categorySerializer
 
+from django.db.models import Q
+
 # Others imports
 import json
 
@@ -31,6 +33,38 @@ class categoryViewAll(APIView):
             serializer.save()
             return Response(self.custom_response("Success", serializer.data, status=status.HTTP_201_CREATED))
         return Response(self.custom_response("Error", serializer.errors, status=status.HTTP_400_BAD_REQUEST))
+
+class categoryEntradaView(APIView):
+    def custom_response(self, msg, response, status):
+        data ={
+            "messages": msg,
+            "pay_load": response,
+            "status": status,
+        }
+        res= json.dumps(data)
+        response = json.loads(res)
+        return response
+
+    def get(self, request, format=None):
+        queryset = categoryModel.objects.filter(categoria="Ingreso").values()
+        serializer = categorySerializer(queryset , many=True, context={'request':request})
+        return Response(self.custom_response("Success", serializer.data, status=status.HTTP_200_OK))
+
+class categorySalidaView(APIView):
+    def custom_response(self, msg, response, status):
+        data ={
+            "messages": msg,
+            "pay_load": response,
+            "status": status,
+        }
+        res= json.dumps(data)
+        response = json.loads(res)
+        return response
+
+    def get(self, request, format=None):
+        queryset = categoryModel.objects.filter(Q(categoria="Costo-Venta") | Q(categoria="Gasto-AOC")).values()
+        serializer = categorySerializer(queryset , many=True, context={'request':request})
+        return Response(self.custom_response("Success", serializer.data, status=status.HTTP_200_OK))
 
 class categoryViewDetail(APIView):
     def custom_response(self, msg, response, status):

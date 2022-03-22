@@ -32,7 +32,6 @@ class flujoViewAll(APIView):
                 "cantidad": i['cantidad'],
                 "categoria": i['categoria'],
                 "idCat": categoria[0]['id'],
-                "clasificacionCat": categoria[0]['clasificacion'],
                 "categoriaCat": categoria[0]['categoria'],
                 "subcategoriaCat": categoria[0]['subcategoria']
             }
@@ -81,7 +80,6 @@ class flujoViewDetail(APIView):
             "cantidadFlujo": flujo.get('cantidad'),
             "categoriaFlujo": flujo.get('categoria'),
             "idCategoria":categoria[0]['id'],
-            "clasificaciónCat":categoria[0]['clasificacion'],
             "categoriaCat":categoria[0]['categoria'],
             "subcategoriaCat":categoria[0]['subcategoria']
         }
@@ -103,3 +101,18 @@ class flujoViewDetail(APIView):
             categoria = categoryModel.objects.filter(id=idCat).values()
             return Response(self.custom_response_get(flujo.data, categoria))
         return Response(self.custom_response("Error", "No hay datos", status=status.HTTP_400_BAD_REQUEST))
+
+    def put(self, request, pk, format=None):
+        flujo = self.get_flujo(pk)
+        serializer = flujoSerializer(flujo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(self.custom_response("Success", serializer.data, status=status.HTTP_200_OK))
+        return Response(self.custom_response("Error", serializer.errors, status = status.HTTP_400_BAD_REQUEST))
+
+    def delete(self, request, pk, format=None):
+        flujo = self.get_flujo(pk)
+        if flujo != 0:
+            flujo.delete()
+            return Response(self.custom_response("Success", "Eliminado", status=status.HTTP_200_OK))
+        return Response(self.custom_response("Error", "No se ha podido eliminar", status=status.HTTP_400_BAD_REQUEST))
