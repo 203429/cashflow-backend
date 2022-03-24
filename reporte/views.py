@@ -12,6 +12,28 @@ from array import *
 import json
 
 class reporteFlujoSalidaView(APIView):
+    def custom_response_get(self, response):
+        res= json.dumps(response)
+        response = json.loads(res)
+
+        listResponse = []
+
+        for i in range(len(response[0])):
+            print(i)
+            finalData={
+                "Salida": response[0][i],
+                "Semana1" : response[1][i][0],
+                "Semana2" : response[1][i][1],
+                "Semana3" : response[1][i][2],
+                "Semana4" : response[1][i][3],
+                "Total" : response[1][i][4],
+            }
+            listResponse.append(finalData)
+
+        print(response)
+
+        return listResponse
+
     def get(self, request, format=None):
         flujo = flujoModel.objects.all()
         serializerFlujo = flujoSerializer(flujo , many=True, context={'request':request})
@@ -141,7 +163,8 @@ class reporteFlujoSalidaView(APIView):
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
 
-        return(JsonResponse(fSalida, safe=False))
+        # return(Response(fSalida))
+        return Response(self.custom_response_get(fSalida))
 
 class reporteFlujoEntradaView(APIView):
     def get(self, request, format=None):
