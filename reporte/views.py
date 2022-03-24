@@ -65,72 +65,22 @@ class reporteFlujoSalidaView(APIView):
             categoria = categoryModel.objects.filter(subcategoria=subcategoriasS[contadorS]).values()
             flujo = flujoModel.objects.filter(categoria=categoria[0]['id']).values()
             n = len(flujo)
-            temp1 = []
-            temp2 = []
-            temp3 = []
-            temp4 = []
-            tempCont = 1
+            temp = []
+            tempCont = 0
             for j in range(n):
                 f1 = flujo[j]['fecha']
                 cantida = flujo[j]['cantidad']
                 cantidad = str(cantida)
-                if n==1:
-                    if tempCont==1:
-                        temp1a=[]
-                        temp1a.append(f1+"-"+cantidad)
-                        temp1.insert(0,temp1a)
-                if n==2:
-                    if tempCont==1:
-                        temp2a=[]
-                        temp2a.append(f1+"-"+cantidad)
-                        temp2.insert(0,temp2a)
-                    if tempCont==2:
-                        temp2b=[]
-                        temp2b.append(f1+"-"+cantidad)
-                        temp2.insert(1,temp2b)
-                    tempCont+=1
-                if n==3:
-                    if tempCont==1:
-                        temp3a=[]
-                        temp3a.append(f1+"-"+cantidad)
-                        temp3.insert(0,temp3a)
-                    if tempCont==2:
-                        temp3b=[]
-                        temp3b.append(f1+"-"+cantidad)
-                        temp3.insert(1,temp3b)
-                    if tempCont==3:
-                        temp3c=[]
-                        temp3c.append(f1+"-"+cantidad)
-                        temp3.insert(2,temp3c)
-                    tempCont+=1
-                if n==4:
-                    if tempCont==1:
-                        temp4a=[]
-                        temp4a.append(f1+"-"+cantidad)
-                        temp4.insert(0,temp4a)
-                    if tempCont==2:
-                        temp4b=[]
-                        temp4b.append(f1+"-"+cantidad)
-                        temp4.insert(1,temp4b)
-                    if tempCont==3:
-                        temp4c=[]
-                        temp4c.append(f1+"-"+cantidad)
-                        temp4.insert(2,temp4c)
-                    if tempCont==4:
-                        temp4d=[]
-                        temp4d.append(f1+"-"+cantidad)
-                        temp4.insert(3,temp4d)
-                    tempCont+=1
-            if len(temp1)!=0:
-                fechaS.insert(contadorS,temp1)
-            if len(temp2)!=0:
-                fechaS.insert(contadorS,temp2)
-            if len(temp3)!=0:
-                fechaS.insert(contadorS,temp3)
-            if len(temp4)!=0:
-                fechaS.insert(contadorS,temp4)
+
+                tempArray = []
+                tempArray.append(f1+"-"+cantidad)
+                temp.insert(tempCont, tempArray)
+                tempCont+=1
+
+            # if len(temp)==0:
+            fechaS.insert(contadorS,temp)
             contadorS+=1
-        
+
         contTemp = 0
         for i in range(len(fechaS)):
             cantidadObjeto = []
@@ -216,70 +166,20 @@ class reporteFlujoEntradaView(APIView):
             categoria = categoryModel.objects.filter(subcategoria=subcategoriasS[contadorS]).values()
             flujo = flujoModel.objects.filter(categoria=categoria[0]['id']).values()
             n = len(flujo)
-            temp1 = []
-            temp2 = []
-            temp3 = []
-            temp4 = []
-            tempCont = 1
+            temp = []
+            tempCont = 0
             for j in range(n):
                 f1 = flujo[j]['fecha']
                 cantida = flujo[j]['cantidad']
                 cantidad = str(cantida)
-                if n==1:
-                    if tempCont==1:
-                        temp1a=[]
-                        temp1a.append(f1+"-"+cantidad)
-                        temp1.insert(0,temp1a)
-                if n==2:
-                    if tempCont==1:
-                        temp2a=[]
-                        temp2a.append(f1+"-"+cantidad)
-                        temp2.insert(0,temp2a)
-                    if tempCont==2:
-                        temp2b=[]
-                        temp2b.append(f1+"-"+cantidad)
-                        temp2.insert(1,temp2b)
-                    tempCont+=1
-                if n==3:
-                    if tempCont==1:
-                        temp3a=[]
-                        temp3a.append(f1+"-"+cantidad)
-                        temp3.insert(0,temp3a)
-                    if tempCont==2:
-                        temp3b=[]
-                        temp3b.append(f1+"-"+cantidad)
-                        temp3.insert(1,temp3b)
-                    if tempCont==3:
-                        temp3c=[]
-                        temp3c.append(f1+"-"+cantidad)
-                        temp3.insert(2,temp3c)
-                    tempCont+=1
-                if n==4:
-                    if tempCont==1:
-                        temp4a=[]
-                        temp4a.append(f1+"-"+cantidad)
-                        temp4.insert(0,temp4a)
-                    if tempCont==2:
-                        temp4b=[]
-                        temp4b.append(f1+"-"+cantidad)
-                        temp4.insert(1,temp4b)
-                    if tempCont==3:
-                        temp4c=[]
-                        temp4c.append(f1+"-"+cantidad)
-                        temp4.insert(2,temp4c)
-                    if tempCont==4:
-                        temp4d=[]
-                        temp4d.append(f1+"-"+cantidad)
-                        temp4.insert(3,temp4d)
-                    tempCont+=1
-            if len(temp1)!=0:
-                fechaS.insert(contadorS,temp1)
-            if len(temp2)!=0:
-                fechaS.insert(contadorS,temp2)
-            if len(temp3)!=0:
-                fechaS.insert(contadorS,temp3)
-            if len(temp4)!=0:
-                fechaS.insert(contadorS,temp4)
+
+                tempArray = []
+                tempArray.append(f1+"-"+cantidad)
+                temp.insert(tempCont, tempArray)
+                tempCont+=1
+
+            # if len(temp)==0:
+            fechaS.insert(contadorS,temp)
             contadorS+=1
         
         contTemp = 0
