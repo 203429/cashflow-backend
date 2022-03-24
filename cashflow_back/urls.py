@@ -24,5 +24,6 @@ urlpatterns = [
     re_path(r'^cashflow/', include('categorias.urls')),
     re_path(r'^cashflow/', include('flujos.urls')),
     re_path(r'^cashflow/', include('indicadores.urls')),
+    re_path(r'^cashflow/', include('reporte.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'categorias',
     'flujos',
     'indicadores',
+    'reporte',
 ]
 
 REST_FRAMEWORK = {
