@@ -33,11 +33,23 @@ class reporteFlujoSalidaView(APIView):
             }
             listResponse.append(finalData)
 
+        finalData2 = {
+            "Salida": "Total:",
+            "Semana1" : "---",
+            "Semana2" : "---",
+            "Semana3" : "---",
+            "Semana4" : "---",
+            "Total" : response[2]
+        }
+        listResponse.append(finalData2)
+
         return listResponse
 
-    def get(self, request, format=None):
-        flujo = flujoModel.objects.all()
-        serializerFlujo = flujoSerializer(flujo , many=True, context={'request':request})
+    def get(self, request, pk, format=None):
+        mes = "/"+pk+"/"
+        # flujo = flujoModel.objects.all()
+        flujo2 = flujoModel.objects.filter(fecha__icontains=mes)
+        serializerFlujo = flujoSerializer(flujo2 , many=True, context={'request':request})
         res= json.dumps(serializerFlujo.data)
         response = json.loads(res)
 
@@ -45,7 +57,7 @@ class reporteFlujoSalidaView(APIView):
         subcategoriasS = []     # Subcategorias listado unico
         fechaS = []             # Fechas en base a la posición de subcategorias
         cantidadS = []          # Cantidad
-
+        
         for i in response:
 
             if i['tipo']=="Salida":
@@ -63,7 +75,7 @@ class reporteFlujoSalidaView(APIView):
         
         for i in range(tamanio):
             categoria = categoryModel.objects.filter(subcategoria=subcategoriasS[contadorS]).values()
-            flujo = flujoModel.objects.filter(categoria=categoria[0]['id']).values()
+            flujo = flujoModel.objects.filter(Q(categoria=categoria[0]['id']) & Q(fecha__icontains=mes)).values()
             n = len(flujo)
             temp = []
             tempCont = 0
@@ -73,7 +85,7 @@ class reporteFlujoSalidaView(APIView):
                 cantidad = str(cantida)
 
                 tempArray = []
-                tempArray.append(f1+"-"+cantidad)
+                tempArray.append(f1+"/"+cantidad)
                 temp.insert(tempCont, tempArray)
                 tempCont+=1
 
@@ -90,7 +102,7 @@ class reporteFlujoSalidaView(APIView):
             contS4 = 0
             for j in range(len(fechaS[i])):
                 temp = fechaS[i][j]
-                fecha1 = temp[0].split("-")
+                fecha1 = temp[0].split("/")
                 cantidad1 = fecha1[3]
                 cantFinal = int(cantidad1)
                 fecha = int(fecha1[0])
@@ -111,8 +123,13 @@ class reporteFlujoSalidaView(APIView):
             cantidadS.insert(contTemp,cantidadObjeto)
             contTemp+=1
 
+        sumaTotal=0
+        for i in cantidadS:
+            sumaTotal+=i[4]
+
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
 
@@ -134,11 +151,24 @@ class reporteFlujoEntradaView(APIView):
             }
             listResponse.append(finalData)
 
+        finalData2 = {
+            "Salida": "Total:",
+            "Semana1" : "---",
+            "Semana2" : "---",
+            "Semana3" : "---",
+            "Semana4" : "---",
+            "Total" : response[2]
+        }
+        listResponse.append(finalData2)
+
+
         return listResponse
 
-    def get(self, request, format=None):
-        flujo = flujoModel.objects.all()
-        serializerFlujo = flujoSerializer(flujo , many=True, context={'request':request})
+    def get(self, request, pk, format=None):
+        mes = "/"+pk+"/"
+        # flujo = flujoModel.objects.all()
+        flujo2 = flujoModel.objects.filter(fecha__icontains=mes)
+        serializerFlujo = flujoSerializer(flujo2 , many=True, context={'request':request})
         res= json.dumps(serializerFlujo.data)
         response = json.loads(res)
 
@@ -164,7 +194,7 @@ class reporteFlujoEntradaView(APIView):
         
         for i in range(tamanio):
             categoria = categoryModel.objects.filter(subcategoria=subcategoriasS[contadorS]).values()
-            flujo = flujoModel.objects.filter(categoria=categoria[0]['id']).values()
+            flujo = flujoModel.objects.filter(Q(categoria=categoria[0]['id']) & Q(fecha__icontains=mes)).values()
             n = len(flujo)
             temp = []
             tempCont = 0
@@ -174,7 +204,7 @@ class reporteFlujoEntradaView(APIView):
                 cantidad = str(cantida)
 
                 tempArray = []
-                tempArray.append(f1+"-"+cantidad)
+                tempArray.append(f1+"/"+cantidad)
                 temp.insert(tempCont, tempArray)
                 tempCont+=1
 
@@ -191,7 +221,7 @@ class reporteFlujoEntradaView(APIView):
             contS4 = 0
             for j in range(len(fechaS[i])):
                 temp = fechaS[i][j]
-                fecha1 = temp[0].split("-")
+                fecha1 = temp[0].split("/")
                 cantidad1 = fecha1[3]
                 cantFinal = int(cantidad1)
                 fecha = int(fecha1[0])
@@ -212,8 +242,13 @@ class reporteFlujoEntradaView(APIView):
             cantidadS.insert(contTemp,cantidadObjeto)
             contTemp+=1
 
+        sumaTotal=0
+        for i in cantidadS:
+            sumaTotal+=i[4]
+
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
 
@@ -235,10 +270,22 @@ class reporteIndicadorCPC(APIView):
             }
             listResponse.append(finalData)
 
+        finalData2 = {
+            "Salida": "Total:",
+            "Semana1" : "---",
+            "Semana2" : "---",
+            "Semana3" : "---",
+            "Semana4" : "---",
+            "Total" : response[2]
+        }
+        listResponse.append(finalData2)
+
+
         return listResponse
 
-    def get(self, request, format=None):
-        indicador = indicadorModel.objects.all()
+    def get(self, request, pk, format=None):
+        mes = "/"+pk+"/"
+        indicador = indicadorModel.objects.filter(fecha__icontains=mes)
         serizalicerIndicador = indicadorSerializer(indicador , many=True, context={'request':request})
         res= json.dumps(serizalicerIndicador.data)
         response = json.loads(res)
@@ -262,76 +309,24 @@ class reporteIndicadorCPC(APIView):
         
         contadorS = 0
         tamanio = len(subcategoriasS)
-        
+
         for i in range(tamanio):
-            # categoria = categoryModel.objects.filter(subcategoria=subcategoriasS[contadorS]).values()
-            # flujo = flujoModel.objects.filter(categoria=categoria[0]['id']).values()
-            indicador = indicadorModel.objects.filter(Q(tipo="CPC") & Q(razon=subcategoriasS[contadorS])).values()
+            indicador = indicadorModel.objects.filter(Q(tipo="CPC") & Q(razon=subcategoriasS[contadorS]) & Q(fecha__icontains=mes)).values()
             n = len(indicador)
-            temp1 = []
-            temp2 = []
-            temp3 = []
-            temp4 = []
-            tempCont = 1
+            temp = []
+            tempCont = 0
             for j in range(n):
                 f1 = indicador[j]['fecha']
                 cantida = indicador[j]['cantidad']
                 cantidad = str(cantida)
-                if n==1:
-                    if tempCont==1:
-                        temp1a=[]
-                        temp1a.append(f1+"-"+cantidad)
-                        temp1.insert(0,temp1a)
-                if n==2:
-                    if tempCont==1:
-                        temp2a=[]
-                        temp2a.append(f1+"-"+cantidad)
-                        temp2.insert(0,temp2a)
-                    if tempCont==2:
-                        temp2b=[]
-                        temp2b.append(f1+"-"+cantidad)
-                        temp2.insert(1,temp2b)
-                    tempCont+=1
-                if n==3:
-                    if tempCont==1:
-                        temp3a=[]
-                        temp3a.append(f1+"-"+cantidad)
-                        temp3.insert(0,temp3a)
-                    if tempCont==2:
-                        temp3b=[]
-                        temp3b.append(f1+"-"+cantidad)
-                        temp3.insert(1,temp3b)
-                    if tempCont==3:
-                        temp3c=[]
-                        temp3c.append(f1+"-"+cantidad)
-                        temp3.insert(2,temp3c)
-                    tempCont+=1
-                if n==4:
-                    if tempCont==1:
-                        temp4a=[]
-                        temp4a.append(f1+"-"+cantidad)
-                        temp4.insert(0,temp4a)
-                    if tempCont==2:
-                        temp4b=[]
-                        temp4b.append(f1+"-"+cantidad)
-                        temp4.insert(1,temp4b)
-                    if tempCont==3:
-                        temp4c=[]
-                        temp4c.append(f1+"-"+cantidad)
-                        temp4.insert(2,temp4c)
-                    if tempCont==4:
-                        temp4d=[]
-                        temp4d.append(f1+"-"+cantidad)
-                        temp4.insert(3,temp4d)
-                    tempCont+=1
-            if len(temp1)!=0:
-                fechaS.insert(contadorS,temp1)
-            if len(temp2)!=0:
-                fechaS.insert(contadorS,temp2)
-            if len(temp3)!=0:
-                fechaS.insert(contadorS,temp3)
-            if len(temp4)!=0:
-                fechaS.insert(contadorS,temp4)
+
+                tempArray = []
+                tempArray.append(f1+"/"+cantidad)
+                temp.insert(tempCont, tempArray)
+                tempCont+=1
+
+            # if len(temp)==0:
+            fechaS.insert(contadorS,temp)
             contadorS+=1
         
         contTemp = 0
@@ -343,7 +338,7 @@ class reporteIndicadorCPC(APIView):
             contS4 = 0
             for j in range(len(fechaS[i])):
                 temp = fechaS[i][j]
-                fecha1 = temp[0].split("-")
+                fecha1 = temp[0].split("/")
                 cantidad1 = fecha1[3]
                 cantFinal = int(cantidad1)
                 fecha = int(fecha1[0])
@@ -364,8 +359,13 @@ class reporteIndicadorCPC(APIView):
             cantidadS.insert(contTemp,cantidadObjeto)
             contTemp+=1
 
+        sumaTotal=0
+        for i in cantidadS:
+            sumaTotal+=i[4]
+
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
 
@@ -387,10 +387,22 @@ class reporteIndicadorCPP(APIView):
             }
             listResponse.append(finalData)
 
+        finalData2 = {
+            "Salida": "Total:",
+            "Semana1" : "---",
+            "Semana2" : "---",
+            "Semana3" : "---",
+            "Semana4" : "---",
+            "Total" : response[2]
+        }
+        listResponse.append(finalData2)
+
+
         return listResponse
 
-    def get(self, request, format=None):
-        indicador = indicadorModel.objects.all()
+    def get(self, request, pk, format=None):
+        mes = "/"+pk+"/"
+        indicador = indicadorModel.objects.filter(fecha__icontains=mes)
         serizalicerIndicador = indicadorSerializer(indicador , many=True, context={'request':request})
         res= json.dumps(serizalicerIndicador.data)
         response = json.loads(res)
@@ -414,76 +426,24 @@ class reporteIndicadorCPP(APIView):
         
         contadorS = 0
         tamanio = len(subcategoriasS)
-        
+
         for i in range(tamanio):
-            # categoria = categoryModel.objects.filter(subcategoria=subcategoriasS[contadorS]).values()
-            # flujo = flujoModel.objects.filter(categoria=categoria[0]['id']).values()
-            indicador = indicadorModel.objects.filter(Q(tipo="CPP") & Q(razon=subcategoriasS[contadorS])).values()
+            indicador = indicadorModel.objects.filter(Q(tipo="CPP") & Q(razon=subcategoriasS[contadorS]) & Q(fecha__icontains=mes)).values()
             n = len(indicador)
-            temp1 = []
-            temp2 = []
-            temp3 = []
-            temp4 = []
-            tempCont = 1
+            temp = []
+            tempCont = 0
             for j in range(n):
                 f1 = indicador[j]['fecha']
                 cantida = indicador[j]['cantidad']
                 cantidad = str(cantida)
-                if n==1:
-                    if tempCont==1:
-                        temp1a=[]
-                        temp1a.append(f1+"-"+cantidad)
-                        temp1.insert(0,temp1a)
-                if n==2:
-                    if tempCont==1:
-                        temp2a=[]
-                        temp2a.append(f1+"-"+cantidad)
-                        temp2.insert(0,temp2a)
-                    if tempCont==2:
-                        temp2b=[]
-                        temp2b.append(f1+"-"+cantidad)
-                        temp2.insert(1,temp2b)
-                    tempCont+=1
-                if n==3:
-                    if tempCont==1:
-                        temp3a=[]
-                        temp3a.append(f1+"-"+cantidad)
-                        temp3.insert(0,temp3a)
-                    if tempCont==2:
-                        temp3b=[]
-                        temp3b.append(f1+"-"+cantidad)
-                        temp3.insert(1,temp3b)
-                    if tempCont==3:
-                        temp3c=[]
-                        temp3c.append(f1+"-"+cantidad)
-                        temp3.insert(2,temp3c)
-                    tempCont+=1
-                if n==4:
-                    if tempCont==1:
-                        temp4a=[]
-                        temp4a.append(f1+"-"+cantidad)
-                        temp4.insert(0,temp4a)
-                    if tempCont==2:
-                        temp4b=[]
-                        temp4b.append(f1+"-"+cantidad)
-                        temp4.insert(1,temp4b)
-                    if tempCont==3:
-                        temp4c=[]
-                        temp4c.append(f1+"-"+cantidad)
-                        temp4.insert(2,temp4c)
-                    if tempCont==4:
-                        temp4d=[]
-                        temp4d.append(f1+"-"+cantidad)
-                        temp4.insert(3,temp4d)
-                    tempCont+=1
-            if len(temp1)!=0:
-                fechaS.insert(contadorS,temp1)
-            if len(temp2)!=0:
-                fechaS.insert(contadorS,temp2)
-            if len(temp3)!=0:
-                fechaS.insert(contadorS,temp3)
-            if len(temp4)!=0:
-                fechaS.insert(contadorS,temp4)
+
+                tempArray = []
+                tempArray.append(f1+"/"+cantidad)
+                temp.insert(tempCont, tempArray)
+                tempCont+=1
+
+            # if len(temp)==0:
+            fechaS.insert(contadorS,temp)
             contadorS+=1
         
         contTemp = 0
@@ -495,7 +455,7 @@ class reporteIndicadorCPP(APIView):
             contS4 = 0
             for j in range(len(fechaS[i])):
                 temp = fechaS[i][j]
-                fecha1 = temp[0].split("-")
+                fecha1 = temp[0].split("/")
                 cantidad1 = fecha1[3]
                 cantFinal = int(cantidad1)
                 fecha = int(fecha1[0])
@@ -516,8 +476,13 @@ class reporteIndicadorCPP(APIView):
             cantidadS.insert(contTemp,cantidadObjeto)
             contTemp+=1
 
+        sumaTotal=0
+        for i in cantidadS:
+            sumaTotal+=i[4]
+
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
 
@@ -539,10 +504,22 @@ class reporteIndicadorBNC(APIView):
             }
             listResponse.append(finalData)
 
+        finalData2 = {
+            "Salida": "Total:",
+            "Semana1" : "---",
+            "Semana2" : "---",
+            "Semana3" : "---",
+            "Semana4" : "---",
+            "Total" : response[2]
+        }
+        listResponse.append(finalData2)
+
+
         return listResponse
 
-    def get(self, request, format=None):
-        indicador = indicadorModel.objects.all()
+    def get(self, request, pk, format=None):
+        mes = "/"+pk+"/"
+        indicador = indicadorModel.objects.filter(fecha__icontains=mes)
         serizalicerIndicador = indicadorSerializer(indicador , many=True, context={'request':request})
         res= json.dumps(serizalicerIndicador.data)
         response = json.loads(res)
@@ -566,76 +543,24 @@ class reporteIndicadorBNC(APIView):
         
         contadorS = 0
         tamanio = len(subcategoriasS)
-        
+
         for i in range(tamanio):
-            # categoria = categoryModel.objects.filter(subcategoria=subcategoriasS[contadorS]).values()
-            # flujo = flujoModel.objects.filter(categoria=categoria[0]['id']).values()
-            indicador = indicadorModel.objects.filter(Q(tipo="BNC") & Q(razon=subcategoriasS[contadorS])).values()
+            indicador = indicadorModel.objects.filter(Q(tipo="BNC") & Q(razon=subcategoriasS[contadorS]) & Q(fecha__icontains=mes)).values()
             n = len(indicador)
-            temp1 = []
-            temp2 = []
-            temp3 = []
-            temp4 = []
-            tempCont = 1
+            temp = []
+            tempCont = 0
             for j in range(n):
                 f1 = indicador[j]['fecha']
                 cantida = indicador[j]['cantidad']
                 cantidad = str(cantida)
-                if n==1:
-                    if tempCont==1:
-                        temp1a=[]
-                        temp1a.append(f1+"-"+cantidad)
-                        temp1.insert(0,temp1a)
-                if n==2:
-                    if tempCont==1:
-                        temp2a=[]
-                        temp2a.append(f1+"-"+cantidad)
-                        temp2.insert(0,temp2a)
-                    if tempCont==2:
-                        temp2b=[]
-                        temp2b.append(f1+"-"+cantidad)
-                        temp2.insert(1,temp2b)
-                    tempCont+=1
-                if n==3:
-                    if tempCont==1:
-                        temp3a=[]
-                        temp3a.append(f1+"-"+cantidad)
-                        temp3.insert(0,temp3a)
-                    if tempCont==2:
-                        temp3b=[]
-                        temp3b.append(f1+"-"+cantidad)
-                        temp3.insert(1,temp3b)
-                    if tempCont==3:
-                        temp3c=[]
-                        temp3c.append(f1+"-"+cantidad)
-                        temp3.insert(2,temp3c)
-                    tempCont+=1
-                if n==4:
-                    if tempCont==1:
-                        temp4a=[]
-                        temp4a.append(f1+"-"+cantidad)
-                        temp4.insert(0,temp4a)
-                    if tempCont==2:
-                        temp4b=[]
-                        temp4b.append(f1+"-"+cantidad)
-                        temp4.insert(1,temp4b)
-                    if tempCont==3:
-                        temp4c=[]
-                        temp4c.append(f1+"-"+cantidad)
-                        temp4.insert(2,temp4c)
-                    if tempCont==4:
-                        temp4d=[]
-                        temp4d.append(f1+"-"+cantidad)
-                        temp4.insert(3,temp4d)
-                    tempCont+=1
-            if len(temp1)!=0:
-                fechaS.insert(contadorS,temp1)
-            if len(temp2)!=0:
-                fechaS.insert(contadorS,temp2)
-            if len(temp3)!=0:
-                fechaS.insert(contadorS,temp3)
-            if len(temp4)!=0:
-                fechaS.insert(contadorS,temp4)
+
+                tempArray = []
+                tempArray.append(f1+"/"+cantidad)
+                temp.insert(tempCont, tempArray)
+                tempCont+=1
+
+            # if len(temp)==0:
+            fechaS.insert(contadorS,temp)
             contadorS+=1
         
         contTemp = 0
@@ -647,7 +572,7 @@ class reporteIndicadorBNC(APIView):
             contS4 = 0
             for j in range(len(fechaS[i])):
                 temp = fechaS[i][j]
-                fecha1 = temp[0].split("-")
+                fecha1 = temp[0].split("/")
                 cantidad1 = fecha1[3]
                 cantFinal = int(cantidad1)
                 fecha = int(fecha1[0])
@@ -668,7 +593,12 @@ class reporteIndicadorBNC(APIView):
             cantidadS.insert(contTemp,cantidadObjeto)
             contTemp+=1
 
+        sumaTotal=0
+        for i in cantidadS:
+            sumaTotal+=i[4]
+
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))

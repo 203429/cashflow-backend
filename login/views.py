@@ -18,4 +18,5 @@ class loginAuth(ObtainAuthToken):
         return Response({
             'token' : token.key,
             'user_id' : user.pk,
+            'is_superuser' : user.is_superuser
         })
