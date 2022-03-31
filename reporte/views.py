@@ -23,25 +23,45 @@ class reporteFlujoSalidaView(APIView):
         listResponse = []
 
         for i in range(len(response[0])):
-            finalData={
+            finalData = {
                 "Salida": response[0][i],
-                "Semana1" : response[1][i][0],
-                "Semana2" : response[1][i][1],
-                "Semana3" : response[1][i][2],
-                "Semana4" : response[1][i][3],
-                "Total" : response[1][i][4],
+                "Semana1": response[i+1][0],
+                "Semana2": response[i+1][1],
+                "Semana3": response[i+1][2],
+                "Semana4": response[i+1][3],
+                "Total": response[i+1][0] + response[i+1][1] + response[i+1][2] + response[i+1][3]
             }
             listResponse.append(finalData)
-
         finalData2 = {
             "Salida": "Total:",
-            "Semana1" : response[2],
-            "Semana2" : response[3],
-            "Semana3" : response[4],
-            "Semana4" : response[5],
-            "Total" : response[6]
+            "Semana1" : response[3][0],
+            "Semana2" : response[3][1],
+            "Semana3" : response[3][2],
+            "Semana4" : response[3][3],
+            "Total": response[3][0] + response[3][1] + response[3][2] + response[3][3]
         }
         listResponse.append(finalData2)
+
+        # for i in range(len(response[0])):
+        #     finalData={
+        #         "Salida": response[0][i],
+        #         "Semana1" : response[1][i][0],
+        #         "Semana2" : response[1][i][1],
+        #         "Semana3" : response[1][i][2],
+        #         "Semana4" : response[1][i][3],
+        #         "Total" : response[1][i][4],
+        #     }
+        #     listResponse.append(finalData)
+
+        # finalData2 = {
+        #     "Salida": "Total:",
+        #     "Semana1" : response[2],
+        #     "Semana2" : response[3],
+        #     "Semana3" : response[4],
+        #     "Semana4" : response[5],
+        #     "Total" : response[6]
+        # }
+        # listResponse.append(finalData2)
 
         return listResponse
 
@@ -141,9 +161,79 @@ class reporteFlujoSalidaView(APIView):
         fSalida.append(sumaSem2)
         fSalida.append(sumaSem3)
         fSalida.append(sumaSem4)
+
+        finalRes = []
+        categoriaRes = []
+        contSumaSemana1 = 0
+        contSumaSemana2 = 0
+        contSumaSemana3 = 0
+        contSumaSemana4 = 0
+
+        contSumaSemana11 = 0
+        contSumaSemana21 = 0
+        contSumaSemana31 = 0
+        contSumaSemana41 = 0
+        contSumaSemana12 = 0
+        contSumaSemana22 = 0
+        contSumaSemana32 = 0
+        contSumaSemana42 = 0
+        sumas = []
+        sumas2 = []
+        sumas3 = []
+
+        tamanioSub = len(fSalida[0])
+        for i in range(tamanioSub):
+            categoria = categoryModel.objects.filter(subcategoria = fSalida[0][i]).values()
+            catTemp = categoria[0]['categoria']
+            if catTemp=="Costo-Venta":
+                contSumaSemana1+=fSalida[1][i][0]
+                contSumaSemana2+=fSalida[1][i][1]
+                contSumaSemana3+=fSalida[1][i][2]
+                contSumaSemana4+=fSalida[1][i][3]
+                contSumaSemana11+=fSalida[1][i][0]
+                contSumaSemana21+=fSalida[1][i][1]
+                contSumaSemana31+=fSalida[1][i][2]
+                contSumaSemana41+=fSalida[1][i][3]
+                if catTemp in categoriaRes:
+                    example = 1
+                else:
+                    categoriaRes.append(catTemp)
+            if catTemp=="Gasto-AOC":
+                contSumaSemana1+=fSalida[1][i][0]
+                contSumaSemana2+=fSalida[1][i][1]
+                contSumaSemana3+=fSalida[1][i][2]
+                contSumaSemana4+=fSalida[1][i][3]
+                contSumaSemana12+=fSalida[1][i][0]
+                contSumaSemana22+=fSalida[1][i][1]
+                contSumaSemana32+=fSalida[1][i][2]
+                contSumaSemana42+=fSalida[1][i][3]
+                if catTemp in categoriaRes:
+                    example = 1
+                else:
+                    categoriaRes.append(catTemp)
+            
+        sumas.append(contSumaSemana1)
+        sumas.append(contSumaSemana2)
+        sumas.append(contSumaSemana3)
+        sumas.append(contSumaSemana4)
+        sumas2.append(contSumaSemana11)
+        sumas2.append(contSumaSemana21)
+        sumas2.append(contSumaSemana31)
+        sumas2.append(contSumaSemana41)
+        sumas3.append(contSumaSemana12)
+        sumas3.append(contSumaSemana22)
+        sumas3.append(contSumaSemana32)
+        sumas3.append(contSumaSemana42)
+
+        finalRes.append(categoriaRes)
+        finalRes.append(sumas2)
+        finalRes.append(sumas3)
+        finalRes.append(sumas)
+        print(finalRes)
+        
         fSalida.append(sumaTotal)
 
-        return Response(self.custom_response_get(fSalida))
+        return Response(self.custom_response_get(finalRes))
 
 class reporteFlujoEntradaView(APIView):
     def custom_response_get(self, response):
