@@ -35,11 +35,11 @@ class reporteFlujoSalidaView(APIView):
 
         finalData2 = {
             "Salida": "Total:",
-            "Semana1" : "---",
-            "Semana2" : "---",
-            "Semana3" : "---",
-            "Semana4" : "---",
-            "Total" : response[2]
+            "Semana1" : response[2],
+            "Semana2" : response[3],
+            "Semana3" : response[4],
+            "Semana4" : response[5],
+            "Total" : response[6]
         }
         listResponse.append(finalData2)
 
@@ -124,11 +124,23 @@ class reporteFlujoSalidaView(APIView):
             contTemp+=1
 
         sumaTotal=0
+        sumaSem1=0
+        sumaSem2=0
+        sumaSem3=0
+        sumaSem4=0
         for i in cantidadS:
+            sumaSem1+=i[0]
+            sumaSem2+=i[1]
+            sumaSem3+=i[2]
+            sumaSem4+=i[3]
             sumaTotal+=i[4]
 
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaSem1)
+        fSalida.append(sumaSem2)
+        fSalida.append(sumaSem3)
+        fSalida.append(sumaSem4)
         fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
@@ -153,11 +165,11 @@ class reporteFlujoEntradaView(APIView):
 
         finalData2 = {
             "Salida": "Total:",
-            "Semana1" : "---",
-            "Semana2" : "---",
-            "Semana3" : "---",
-            "Semana4" : "---",
-            "Total" : response[2]
+            "Semana1" : response[2],
+            "Semana2" : response[3],
+            "Semana3" : response[4],
+            "Semana4" : response[5],
+            "Total" : response[6]
         }
         listResponse.append(finalData2)
 
@@ -243,11 +255,23 @@ class reporteFlujoEntradaView(APIView):
             contTemp+=1
 
         sumaTotal=0
+        sumaSem1=0
+        sumaSem2=0
+        sumaSem3=0
+        sumaSem4=0
         for i in cantidadS:
+            sumaSem1+=i[0]
+            sumaSem2+=i[1]
+            sumaSem3+=i[2]
+            sumaSem4+=i[3]
             sumaTotal+=i[4]
 
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaSem1)
+        fSalida.append(sumaSem2)
+        fSalida.append(sumaSem3)
+        fSalida.append(sumaSem4)
         fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
@@ -272,11 +296,11 @@ class reporteIndicadorCPC(APIView):
 
         finalData2 = {
             "Salida": "Total:",
-            "Semana1" : "---",
-            "Semana2" : "---",
-            "Semana3" : "---",
-            "Semana4" : "---",
-            "Total" : response[2]
+            "Semana1" : response[2],
+            "Semana2" : response[3],
+            "Semana3" : response[4],
+            "Semana4" : response[5],
+            "Total" : response[6]
         }
         listResponse.append(finalData2)
 
@@ -360,11 +384,23 @@ class reporteIndicadorCPC(APIView):
             contTemp+=1
 
         sumaTotal=0
+        sumaSem1=0
+        sumaSem2=0
+        sumaSem3=0
+        sumaSem4=0
         for i in cantidadS:
+            sumaSem1+=i[0]
+            sumaSem2+=i[1]
+            sumaSem3+=i[2]
+            sumaSem4+=i[3]
             sumaTotal+=i[4]
 
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaSem1)
+        fSalida.append(sumaSem2)
+        fSalida.append(sumaSem3)
+        fSalida.append(sumaSem4)
         fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
@@ -389,11 +425,11 @@ class reporteIndicadorCPP(APIView):
 
         finalData2 = {
             "Salida": "Total:",
-            "Semana1" : "---",
-            "Semana2" : "---",
-            "Semana3" : "---",
-            "Semana4" : "---",
-            "Total" : response[2]
+            "Semana1" : response[2],
+            "Semana2" : response[3],
+            "Semana3" : response[4],
+            "Semana4" : response[5],
+            "Total" : response[6]
         }
         listResponse.append(finalData2)
 
@@ -477,11 +513,23 @@ class reporteIndicadorCPP(APIView):
             contTemp+=1
 
         sumaTotal=0
+        sumaSem1=0
+        sumaSem2=0
+        sumaSem3=0
+        sumaSem4=0
         for i in cantidadS:
+            sumaSem1+=i[0]
+            sumaSem2+=i[1]
+            sumaSem3+=i[2]
+            sumaSem4+=i[3]
             sumaTotal+=i[4]
 
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaSem1)
+        fSalida.append(sumaSem2)
+        fSalida.append(sumaSem3)
+        fSalida.append(sumaSem4)
         fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
@@ -506,11 +554,11 @@ class reporteIndicadorBNC(APIView):
 
         finalData2 = {
             "Salida": "Total:",
-            "Semana1" : "---",
-            "Semana2" : "---",
-            "Semana3" : "---",
-            "Semana4" : "---",
-            "Total" : response[2]
+            "Semana1" : response[2],
+            "Semana2" : response[3],
+            "Semana3" : response[4],
+            "Semana4" : response[5],
+            "Total" : response[6]
         }
         listResponse.append(finalData2)
 
@@ -594,11 +642,23 @@ class reporteIndicadorBNC(APIView):
             contTemp+=1
 
         sumaTotal=0
+        sumaSem1=0
+        sumaSem2=0
+        sumaSem3=0
+        sumaSem4=0
         for i in cantidadS:
+            sumaSem1+=i[0]
+            sumaSem2+=i[1]
+            sumaSem3+=i[2]
+            sumaSem4+=i[3]
             sumaTotal+=i[4]
 
         fSalida.append(subcategoriasS)
         fSalida.append(cantidadS)
+        fSalida.append(sumaSem1)
+        fSalida.append(sumaSem2)
+        fSalida.append(sumaSem3)
+        fSalida.append(sumaSem4)
         fSalida.append(sumaTotal)
 
         return Response(self.custom_response_get(fSalida))
