@@ -380,7 +380,7 @@ class reporteIndicadorCPC(APIView):
                 "Semana2" : response[1][i][1],
                 "Semana3" : response[1][i][2],
                 "Semana4" : response[1][i][3],
-                "Total" : response[1][i][4],
+                "Total" : response[1][i][3],
             }
             listResponse.append(finalData)
 
@@ -390,7 +390,7 @@ class reporteIndicadorCPC(APIView):
             "Semana2" : response[3],
             "Semana3" : response[4],
             "Semana4" : response[5],
-            "Total" : response[6]
+            "Total" : response[5]
         }
         listResponse.append(finalData2)
 
@@ -509,7 +509,7 @@ class reporteIndicadorCPP(APIView):
                 "Semana2" : response[1][i][1],
                 "Semana3" : response[1][i][2],
                 "Semana4" : response[1][i][3],
-                "Total" : response[1][i][4],
+                "Total" : response[1][i][3],
             }
             listResponse.append(finalData)
 
@@ -519,7 +519,7 @@ class reporteIndicadorCPP(APIView):
             "Semana2" : response[3],
             "Semana3" : response[4],
             "Semana4" : response[5],
-            "Total" : response[6]
+            "Total" : response[5]
         }
         listResponse.append(finalData2)
 
@@ -638,7 +638,7 @@ class reporteIndicadorBNC(APIView):
                 "Semana2" : response[1][i][1],
                 "Semana3" : response[1][i][2],
                 "Semana4" : response[1][i][3],
-                "Total" : response[1][i][4],
+                "Total" : response[1][i][3],
             }
             listResponse.append(finalData)
 
@@ -648,7 +648,7 @@ class reporteIndicadorBNC(APIView):
             "Semana2" : response[3],
             "Semana3" : response[4],
             "Semana4" : response[5],
-            "Total" : response[6]
+            "Total" : response[5]
         }
         listResponse.append(finalData2)
 
