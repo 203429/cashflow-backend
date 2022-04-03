@@ -97,3 +97,10 @@ class categoryViewDetail(APIView):
             serializer.save()
             return Response(self.custom_response("Success", serializer.data, status=status.HTTP_200_OK))
         return Response(self.custom_response("Error", serializer.errors, status = status.HTTP_400_BAD_REQUEST))
+
+    def delete(self, request, pk, format=None):
+        category = self.get_object(pk)
+        if category != 0:
+            category.delete()
+            return Response(self.custom_response("Success", "Eliminado", status=status.HTTP_200_OK))
+        return Response(self.custom_response("Error", "No se ha podido eliminar", status=status.HTTP_400_BAD_REQUEST))
